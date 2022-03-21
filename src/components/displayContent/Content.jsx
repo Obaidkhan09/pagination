@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
 
 const StyleCenter = styled.div`
 display : flex;
@@ -16,38 +16,39 @@ margin-bottom : 20px;
 width : 80%
 `
 
-export default function Content({ page, setPage, perPage, setPerPage, data, setData, setTotalPage }) {
-    const startIndex = ( page - 1 ) * perPage ;
-    const [err, setErr] = useState('');
-    const url = 'https://jsonplaceholder.typicode.com/posts';
-    const [loading, setLoading] = useState(false);
+export default function Content() {
+    const data = useSelector((state) => state.data.items);
+    const loading = useSelector((state)=> state.data.state);
+    // const startIndex = ( page - 1 ) * perPage ;
+    // const [err, setErr] = useState('');
+    // const [loading, setLoading] = useState(false);
     
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-            const temp = await axios.get(url);
-            setLoading(false);
-            setData(temp.data);
-            setTotalPage(temp.data.length / perPage)
-        } catch (error) {
-            console.log(error);
-            setErr(error);
-        }
-    }
+    // const fetchData = async () => {
+    //     try {
+    //         setLoading(true);
+    //         const temp = await axios.get('/');
+    //         setLoading(false);
+    //         setData(temp.data);
+    //         setTotalPage(temp.data.length / perPage)
+    //     } catch (error) {
+    //         console.log(error);
+    //         setErr(error);
+    //     }
+    // }
     
-    useEffect(() => {
-        fetchData();
-    }, [])
-    if (err) {
-        return <h1>{err}</h1>
-    }
+    // useEffect(() => {
+    //     fetchData();
+    // }, [])
+    // if (err) {
+    //     return <h1>{err}</h1>
+    // }
     
-    const selectData = data.slice(startIndex, startIndex + perPage);
+    // const selectData = data.slice(startIndex, startIndex + perPage);
 
     return (
         <div>
             <StyleCenter>
-                {loading ? <h2>Loading Data Please Wait..</h2> : selectData.map((items) => (
+                {loading ? <h2>Loading Data Please Wait..</h2> : data.map((items) => (
                     <StyleDetails key={items.id}>
                         <h2>{items.title}</h2>
                         <p>{items.body}</p>
