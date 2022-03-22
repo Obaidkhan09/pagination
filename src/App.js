@@ -5,10 +5,14 @@ import Home from './components/home/Home';
 import { getContent } from './features/contentSlice';
 
 function App() {
-  const currentPage = useSelector((state) => state.data.currentPage);
+  const data = useSelector((state) => state.data);
   const dispatch = useDispatch()
+  const prop = {
+    current : data.currentPage,
+    items : data.perPage
+  }
   useEffect(()=> {
-    dispatch(getContent(currentPage));
+    dispatch(getContent(prop));
   }, []);
   return (
     <div className="App">

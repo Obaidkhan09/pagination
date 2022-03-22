@@ -12,7 +12,7 @@ export const getContent = createAsyncThunk(
     'content/get',
     async (temp) => {
         // console.log(temp)
-        const response = await axios.get(`/?current=${temp}`);
+        const response = await axios.get(`/?current=${temp.current}&items=${temp.items}`);
         // console.log(response.data);
         return response?.data;
     }
@@ -23,10 +23,6 @@ const contentSlice = createSlice({
     name: 'content',
     initialState,
     reducers: {
-        handlePage(state, action) {
-            state.currentPage = action.payload;
-            // console.log(action.payload);
-        }
     },
     extraReducers: {
         [getContent.pending]: (state, action) => {
